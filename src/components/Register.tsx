@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 
-const Login = () => {
-  const [open, setOpen] = useState(false)
+const Register = () => {
+    const [open, setOpen] = useState(false)
 
   return (
     <>
@@ -12,9 +12,9 @@ const Login = () => {
           e.preventDefault()
           setOpen(true)
         }}
-        className="text-sm/6 font-semibold text-white"
+        className="text-sm/6 font-semibold text-teal-600"
       >
-        Login
+        Registro
       </a>
 
       <Dialog open={open} onClose={() => setOpen(false)} className="relative z-10">
@@ -28,7 +28,7 @@ const Login = () => {
             <DialogPanel
               transition
               className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:max-w-lg w-full flex flex-col items-center justify-center"
-              style={{ width: '300px', height: '400px' }}
+              style={{ width: '400px', height: '450px' }}
             >
               <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 flex flex-col items-center">
                 <h1 className="font-bold text-center text-2xl mb-10">Vestibulados</h1>
@@ -36,7 +36,7 @@ const Login = () => {
                  
                   <div className="mt-3 text-center sm:mt-0">
                     <DialogTitle as="h3" className="text-base font-semibold text-gray-900">
-                      Login
+                      Registro
                     </DialogTitle>
                     <div className="mt-10 w-full sm:max-w-sm">
                       <form action="#" method="POST" className="space-y-6">
@@ -57,7 +57,7 @@ const Login = () => {
                         <div>
                           <div className="mt-2">
                             <input
-                              placeholder='   Password'
+                              placeholder='   Senha'
                               id="password"
                               name="password"
                               type="password"
@@ -67,7 +67,19 @@ const Login = () => {
                             />
                           </div>
                         </div>
-
+                        <div>
+                          <div className="mt-2">
+                            <input
+                              placeholder='   Confirme a Senha'
+                              id="password"
+                              name="password"
+                              type="password"
+                              required
+                              autoComplete="current-password"
+                              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+                            />
+                          </div>
+                        </div>
                         <div>
                           <button
                             type="submit"
@@ -78,7 +90,7 @@ const Login = () => {
                         </div>
                         <div>
                           <a href="/" className=''>
-                            <p> Não tem uma conta? cadastre-se </p>
+                            <p>Tem uma conta? Fala o login</p>
                           </a>
                         </div>
                       </form>
@@ -95,4 +107,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Register
