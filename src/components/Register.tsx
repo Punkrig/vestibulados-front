@@ -1,25 +1,34 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useContext } from 'react';
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react';
+import { AuthContext } from '../contexts/AuthContext';
 
 interface RegisterModalProps {
   onClose: () => void;
 }
 
 const RegisterModal: React.FC<RegisterModalProps> = ({ onClose }) => {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  function handleRegister(event: FormEvent) {
+  const { signUp } = useContext( AuthContext )
+
+  async function handleRegister(event: FormEvent) {
     event.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      alert("Senhas diferentes");
       return;
     }
 
-    // Registration logic here
-    console.log("Registration data:", { email, password });
+    const data = {
+      name,
+      email,
+      password
+    }
+
+    await signUp(data);
     
     onClose(); // Close the modal after registration is complete
   }
@@ -36,18 +45,33 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ onClose }) => {
           <DialogPanel
             transition
             className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:max-w-lg w-full flex flex-col items-center justify-center"
-            style={{ width: '400px', height: '450px' }}
+            style={{ width: '400px', height: '550px' }}
           >
             <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 flex flex-col items-center">
-              <h1 className="font-bold text-center text-2xl mb-10">Vestibulados</h1>
+              <h1 className="font-bold text-center text-2xl mb-7">Vestibulados</h1>
               <div className="sm:flex sm:items-start">
                 
-                <div className="mt-3 text-center sm:mt-0">
+                <div className="text-center sm:mt-0">
                   <DialogTitle as="h3" className="text-base font-semibold text-gray-900">
                     Registro
                   </DialogTitle>
-                  <div className="mt-10 w-full sm:max-w-sm">
+                  <div className="mt-7 w-full sm:max-w-sm">
                     <form onSubmit={handleRegister} className="space-y-6">
+                    <div>
+                        <div className="mt-2">
+                          <input
+                            placeholder="Nome"
+                            id="username"
+                            name="username"
+                            type="text"
+                            required
+                            autoComplete="username"
+                            className="pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-black focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                          />
+                        </div>
+                      </div>
                       <div>
                         <div className="mt-2">
                           <input
@@ -94,6 +118,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ onClose }) => {
                           />
                         </div>
                       </div>
+                      
                       <div>
                         <button
                           type="submit"

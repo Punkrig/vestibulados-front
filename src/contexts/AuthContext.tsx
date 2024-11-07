@@ -78,13 +78,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setUser({ id, name, email, plan, points });
       api.defaults.headers['Authorization'] = `Bearer ${token}`;
 
-      toast.success("Successfully logged in!");
-
       // Redirect to the home page
       window.location.href = '/home';
+      toast.success("Successfully logged in!");
     } catch (err) {
       toast.error("Error logging in!");
-      console.log("Error logging in", err);
+      //console.log("Error logging in", err);
     }
   }
 

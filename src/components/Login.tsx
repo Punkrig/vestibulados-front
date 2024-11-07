@@ -26,8 +26,7 @@ const Login: React.FC<LoginModalProps> = ({ onClose }) => {
       password
     }
 
-    const response = await signIn(data)
-    console.log(response)
+    await signIn(data)
 
     onClose()
   }
