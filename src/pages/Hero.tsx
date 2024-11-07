@@ -2,7 +2,7 @@ import Menu from '../components/Menu' // Importando o novo componente Menu
 
 const Hero = () => {
   return (
-    <div className="bg-white">
+    <div className="bg-white" id='#home'>
       {/* Substituindo o menu existente pelo componente Menu */}
       <header className="absolute inset-x-0 top-0 z-50">
         <Menu /> {/* Aqui, o componente Menu é adicionado */}

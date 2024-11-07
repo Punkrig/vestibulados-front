@@ -5,6 +5,7 @@ import Hero from "./pages/Hero";
 import Pricing from "./pages/Pricing";
 import Settings from "./pages/Settings";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -17,10 +18,10 @@ function App() {
             <main>
               <Hero />
               <section>
-                <AboutUs id="about-us" />
+                <AboutUs />
               </section>
               <section>
-                <Pricing id="pricing" />
+                <Pricing />
               </section>
               <section>
                 <Footer />
@@ -33,6 +34,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/settings" element={<Settings />} />
       </Routes>
+      <ToastContainer />
     </Router>
   );
 }

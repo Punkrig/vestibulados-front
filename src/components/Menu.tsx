@@ -4,24 +4,37 @@ import Register from "./Register";
 
 const Menu = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isRegisterOpen, setIsRegisterOpen] = useState(false); // Estado para o modal de registro
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
-  const toggleMobileMenu = () => {
+  function openLoginModal() {
+    setIsLoginOpen(true);
+    setIsRegisterOpen(false);
+    closeMobileMenu() // Ensure only one modal opens at a time
+  }
+
+  function closeLoginModal() {
+    setIsLoginOpen(false);
+  }
+
+  function openRegisterModal() {
+    setIsRegisterOpen(true);
+    setIsLoginOpen(false)
+    closeMobileMenu() // Ensure only one modal opens at a time
+  }
+
+  function closeRegisterModal() {
+    setIsRegisterOpen(false);
+  }
+
+  function toggleMobileMenu() {
     setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  }
 
-  const closeMobileMenu = () => {
+  function closeMobileMenu() {
     setIsMobileMenuOpen(false);
-  };
+  }
 
-  const openRegisterModal = () => {
-    setIsRegisterOpen(true); // Abre o modal de registro
-    closeMobileMenu(); // Fecha o menu móvel
-  };
-
-  const closeRegisterModal = () => {
-    setIsRegisterOpen(false); // Fecha o modal de registro
-  };
 
   return (
     <header className="bg-white">
@@ -53,7 +66,7 @@ const Menu = () => {
                 <li>
                   <a
                     className="text-gray-500 transition hover:text-teal-600"
-                    href="#"
+                    href="#home"
                   >
                     Home
                   </a>
@@ -61,7 +74,7 @@ const Menu = () => {
                 <li>
                   <a
                     className="text-gray-500 transition hover:text-teal-600"
-                    href="#"
+                    href="#about-us"
                   >
                     Sobre Nós
                   </a>
@@ -69,7 +82,7 @@ const Menu = () => {
                 <li>
                   <a
                     className="text-gray-500 transition hover:text-teal-600"
-                    href="#"
+                    href="#pricing"
                   >
                     Planos
                   </a>
@@ -80,21 +93,20 @@ const Menu = () => {
 
           <div className="flex items-center gap-4">
             <div className="sm:flex sm:gap-4">
-              <a
+              <button
                 className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
-                href="#"
+                onClick={openLoginModal}
               >
-                <Login />
-              </a>
+                Login
+              </button>
 
               <div className="hidden sm:flex">
-                <a
+                <button
                   className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
-                  href="#"
-                  onClick={openRegisterModal} // Chama a função para abrir o modal
+                  onClick={openRegisterModal}
                 >
-                  <Register />
-                </a>
+                  Register
+                </button>
               </div>
             </div>
 
@@ -122,7 +134,7 @@ const Menu = () => {
           </div>
         </div>
 
-        {/* Menu para dispositivos móveis */}
+        {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <nav className="md:hidden mt-2">
             <ul className="flex flex-col gap-4 text-lg">
@@ -150,22 +162,25 @@ const Menu = () => {
                   Planos
                 </a>
               </li>
-              {/* Botão de Registro no menu móvel */}
+              {/* Register button in mobile menu */}
               <li>
-                <a
+                <button
                   className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
-                  href="#"
-                   
+                  onClick={openRegisterModal}
                 >
-                  <Register />
-                </a>
+                  Register
+                </button>
               </li>
             </ul>
           </nav>
         )}
-      </div>
 
-     
+        {/* Render Login Modal */}
+        {isLoginOpen && <Login onClose={closeLoginModal} />}
+
+        {/* Render Register Modal */}
+        {isRegisterOpen && <Register onClose={closeRegisterModal} />}
+      </div>
     </header>
   );
 };
