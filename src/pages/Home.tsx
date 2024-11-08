@@ -15,7 +15,7 @@ const Home = () => {
                 <strong className="text-[150px]">0</strong>
               </p>
             </div>
-            <div className="bg-slate-400 h-[97px] text-center flex items-center justify-center  ">
+            <div className="bg-[#E5E5E5] h-[97px] text-center flex items-center justify-center  ">
               <p >
                 jogue uma partida para completar
                 a sua streack de hoje
