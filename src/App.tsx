@@ -7,6 +7,7 @@ import Settings from "./pages/Settings";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import WaitingRoom from "./pages/WaitingRoom";
 import Roulette from "./pages/Roulette";
+import HostMainPage from "./pages/game/host/HostMainPage";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/waiting-room" element={<WaitingRoom />}/>
         <Route path="/roulette" element={<Roulette/>} />
+        <Route path="/host" element={<HostMainPage/>} />
       </Routes>
     </Router>
   );

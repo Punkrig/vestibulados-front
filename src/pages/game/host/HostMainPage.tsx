@@ -7,7 +7,7 @@ import HostEndView from "./HostEndView";
 import HostIntermissionView from "./HostIntermissionView";
 import { Quiz } from "../../../model/quiz";
 
-const MainPage: React.FC = () => {
+const HostMainPage: React.FC = () => {
   const [game] = useState(() => new HostGame)
   const [active, setActive] = useState(false)
   const [state, setState] = useState<GameState>(GameState.Lobby)
@@ -57,4 +57,4 @@ const MainPage: React.FC = () => {
   );
 };
 
-export default MainPage;
+export default HostMainPage;
