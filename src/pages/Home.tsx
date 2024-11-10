@@ -18,7 +18,7 @@ const Home = () => {
             <div className="bg-[#E5E5E5] h-[97px] text-center flex items-center justify-center  ">
               <p >
                 jogue uma partida para completar
-                a sua streack de hoje
+                a sua streak de hoje
               </p>
             </div>
           </div>

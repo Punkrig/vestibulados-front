@@ -1,8 +1,8 @@
 import Home from "./pages/Home";
-import AboutUs from "./pages/AboutUs";
-import Footer from "./pages/Footer";
-import Hero from "./pages/Hero";
-import Pricing from "./pages/Pricing";
+import AboutUs from "./components/AboutUs";
+import Footer from "./components/Footer";
+import Hero from "./components/Hero";
+import Pricing from "./components/Pricing";
 import Settings from "./pages/Settings";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import WaitingRoom from "./pages/WaitingRoom";

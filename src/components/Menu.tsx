@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Login from "./Login";
 import Register from "./Register";
+import { AuthContext } from "../contexts/AuthContext";
 
 const Menu = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
+  const { isAuthenticated } = useContext(AuthContext);
+
   function openLoginModal() {
     setIsLoginOpen(true);
     setIsRegisterOpen(false);
-    closeMobileMenu() // Ensure only one modal opens at a time
+    closeMobileMenu(); // Ensure only one modal opens at a time
   }
 
   function closeLoginModal() {
@@ -19,8 +22,8 @@ const Menu = () => {
 
   function openRegisterModal() {
     setIsRegisterOpen(true);
-    setIsLoginOpen(false)
-    closeMobileMenu() // Ensure only one modal opens at a time
+    setIsLoginOpen(false);
+    closeMobileMenu(); // Ensure only one modal opens at a time
   }
 
   function closeRegisterModal() {
@@ -92,23 +95,25 @@ const Menu = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="sm:flex sm:gap-4">
-              <button
-                className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
-                onClick={openLoginModal}
-              >
-                Login
-              </button>
-
-              <div className="hidden sm:flex">
+            {!isAuthenticated && (
+              <div className="sm:flex sm:gap-4">
                 <button
-                  className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
-                  onClick={openRegisterModal}
+                  className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
+                  onClick={openLoginModal}
                 >
-                  Register
+                  Login
                 </button>
+
+                <div className="hidden sm:flex">
+                  <button
+                    className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
+                    onClick={openRegisterModal}
+                  >
+                    Register
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="block md:hidden">
               <button
@@ -163,14 +168,16 @@ const Menu = () => {
                 </a>
               </li>
               {/* Register button in mobile menu */}
-              <li>
-                <button
-                  className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
-                  onClick={openRegisterModal}
-                >
-                  Register
-                </button>
-              </li>
+              {!isAuthenticated && (
+                <li>
+                  <button
+                    className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
+                    onClick={openRegisterModal}
+                  >
+                    Register
+                  </button>
+                </li>
+              )}
             </ul>
           </nav>
         )}

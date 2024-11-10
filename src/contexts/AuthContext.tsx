@@ -77,7 +77,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       setUser({ id, name, email, plan, points });
       api.defaults.headers['Authorization'] = `Bearer ${token}`;
-
+      
       // Redirect to the home page
       window.location.href = '/home';
       toast.success("Successfully logged in!");
