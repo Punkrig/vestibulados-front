@@ -5,7 +5,6 @@ import Hero from "./pages/Hero";
 import Pricing from "./pages/Pricing";
 import Settings from "./pages/Settings";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ToastContainer } from "react-toastify";
 import WaitingRoom from "./pages/WaitingRoom";
 import Roulette from "./pages/Roulette";
 
@@ -38,7 +37,6 @@ function App() {
         <Route path="/waiting-room" element={<WaitingRoom />}/>
         <Route path="/roulette" element={<Roulette/>} />
       </Routes>
-      <ToastContainer />
     </Router>
   );
 }
