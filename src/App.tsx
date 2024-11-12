@@ -37,7 +37,7 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/waiting-room" element={<WaitingRoom />}/>
         <Route path="/roulette" element={<Roulette/>} />
-        <Route path="/host" element={<HostMainPage/>} />
+        <Route path="/host/*" element={<HostMainPage/>} />
       </Routes>
     </Router>
   );

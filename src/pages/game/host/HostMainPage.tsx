@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { HostGame } from "../../../services/host/host";
 import { GameState } from "../../../services/net";
 import HostLobbyView from "./HostLobbyView";
@@ -8,51 +9,64 @@ import HostIntermissionView from "../GameIntermissionView";
 import { Quiz } from "../../../model/quiz";
 
 const HostMainPage: React.FC = () => {
-  const [game] = useState(() => new HostGame)
-  const [active, setActive] = useState(false)
-  const [state, setState] = useState<GameState>(GameState.Lobby)
+  const [game] = useState(() => new HostGame());
+  const [active, setActive] = useState(true);
+  const [state, setState] = useState(GameState.Lobby);
+  const navigate = useNavigate();
 
   useEffect(() => {
     game.initializeGame();
 
     const interval = setInterval(() => {
-      setState(game.getState()); // Update local state based on HostGame’s internal state
-    }, 100);
+      setState((prevState) => {
+        const newState = (prevState + 1) % 4;
+        console.log("Updated state:", newState);
+
+        switch (newState) {
+          case GameState.Lobby:
+            navigate("/host/lobby");
+            break;
+          case GameState.Play:
+            navigate("/host/play");
+            break;
+          case GameState.Intermission:
+            navigate("/host/intermission");
+            break;
+          case GameState.End:
+            navigate("/host/end");
+            break;
+          default:
+            navigate("/host/lobby");
+        }
+
+        return newState;
+      });
+    }, 5000);
 
     return () => {
-      clearInterval(interval)
-    }
-    
-  }, [game])
+      clearInterval(interval);
+    };
+  }, [game, navigate]);
 
-  function onHost(event: {detail: Quiz}) {
-    game.hostQuiz(event.detail.id)
-    setActive(true)
-  }
-
-  //TO DO: implementar as views
-  let view;
-  switch (state) {
-    case GameState.Lobby:
-      view = <HostLobbyView game={game} />;
-      break;
-    case GameState.Play:
-      view = <HostPlayView game={game} />;
-      break;
-    case GameState.Intermission:
-      view = <HostIntermissionView game={game} />;
-      break;
-    case GameState.End:
-      view = <HostEndView game={game} />;
-      break;
-    default:
-      view = <HostLobbyView game={game} />;
-      break;
+  function onHost(event: { detail: Quiz }) {
+    game.hostQuiz(event.detail.id);
+    setActive(true);
+    navigate("/host/play");
   }
 
   return (
     <div>
-      {active ? view : <HostLobbyView game={game} />} {/* Render based on active state */}
+      {active ? (
+        <Routes>
+          <Route path="lobby" element={<HostLobbyView game={game} />} />
+          <Route path="play" element={<HostPlayView game={game} />} />
+          <Route path="intermission" element={<HostIntermissionView game={game} />} />
+          <Route path="end" element={<HostEndView game={game} />} />
+          <Route path="*" element={<HostLobbyView game={game} />} />
+        </Routes>
+      ) : (
+        <HostLobbyView game={game} />
+      )}
     </div>
   );
 };
