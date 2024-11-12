@@ -7,10 +7,11 @@ import HostPlayView from "../GamePlayView";
 import HostEndView from "../GameEndView";
 import HostIntermissionView from "../GameIntermissionView";
 import { Quiz } from "../../../model/quiz";
+import Settings from "./Settings";
 
 const HostMainPage: React.FC = () => {
   const [game] = useState(() => new HostGame());
-  const [active, setActive] = useState(true);
+  const [active, setActive] = useState(false);
   const [state, setState] = useState(GameState.Lobby);
   const navigate = useNavigate();
 
@@ -48,8 +49,8 @@ const HostMainPage: React.FC = () => {
     };
   }, [game, navigate]);
 
-  function onHost(event: { detail: Quiz }) {
-    game.hostQuiz(event.detail.id);
+  function onHost(detail: Quiz) {
+    game.hostQuiz(detail.id);
     setActive(true);
     navigate("/host/play");
   }
@@ -58,11 +59,10 @@ const HostMainPage: React.FC = () => {
     <div>
       {active ? (
         <Routes>
-          <Route path="lobby" element={<HostLobbyView game={game} />} />
+          <Route path="lobby" element={<Settings game={game} onHost={onHost} />} />
           <Route path="play" element={<HostPlayView game={game} />} />
           <Route path="intermission" element={<HostIntermissionView game={game} />} />
           <Route path="end" element={<HostEndView game={game} />} />
-          <Route path="*" element={<HostLobbyView game={game} />} />
         </Routes>
       ) : (
         <HostLobbyView game={game} />

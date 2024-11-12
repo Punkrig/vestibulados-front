@@ -3,14 +3,17 @@ import React, { useEffect, useState } from "react";
 import Button from "../../../components/Button";
 import PlayerCard from "../../../components/game/PlayerCard";
 import type { HostGame } from "../../../services/host/host";
+import { Quiz } from "../../../model/quiz";
+
 
 interface HostLobbyViewProps {
   game: HostGame;
+  onHost: (event: { detail: Quiz }) => void;
 }
 
-const HostLobbyView: React.FC<HostLobbyViewProps> = ({ game }) => {
+const HostLobbyView: React.FC<HostLobbyViewProps> = ({ game, onHost }) => {
   const [playerList, setPlayerList] = useState(game.getPlayers());
-
+  
   useEffect(() => {
     // Poll the players list at regular intervals to check for updates
     const interval = setInterval(() => {
