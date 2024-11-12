@@ -1,4 +1,4 @@
-import { GameViewProps } from "../../../model/quiz"
+import { GameViewProps } from "../../model/quiz"
 
 const HostIntermissionView: React.FC<GameViewProps> = ({ game }) => {
   return (

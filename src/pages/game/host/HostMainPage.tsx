@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { HostGame } from "../../../services/host/host";
 import { GameState } from "../../../services/net";
 import HostLobbyView from "./HostLobbyView";
-import HostPlayView from "./HostPlayView";
-import HostEndView from "./HostEndView";
-import HostIntermissionView from "./HostIntermissionView";
+import HostPlayView from "../GamePlayView";
+import HostEndView from "../GameEndView";
+import HostIntermissionView from "../GameIntermissionView";
 import { Quiz } from "../../../model/quiz";
 
 const HostMainPage: React.FC = () => {
