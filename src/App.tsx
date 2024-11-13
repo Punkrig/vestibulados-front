@@ -8,6 +8,7 @@ import WaitingRoom from "./pages/WaitingRoom";
 import Roulette from "./pages/Roulette";
 import HostMainPage from "./pages/game/host/HostMainPage";
 import Gameplay from "./pages/game/Gameplay";
+import Result from "./pages/game/Result";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path="/roulette" element={<Roulette/>} />
         <Route path="/host/*" element={<HostMainPage/>} />
         <Route path="/gameplay" element={<Gameplay />} />
+        <Route path="/result" element={<Result/>} />
       </Routes>
     </Router>
   );
