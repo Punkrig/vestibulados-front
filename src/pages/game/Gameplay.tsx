@@ -18,7 +18,16 @@ const Gameplay = ({ game }: GameplayProps) => {
       <div className="flex flex-col items-center mt-10 ">
         <div className="w-[500px] flex-wrap">
           {perguntaAtual ? ( // Check if perguntaAtual is not null
-            <h1>{perguntaAtual.name}</h1>
+            <>
+              <h1>{perguntaAtual.name}</h1>
+              <div className="mt-4 text-gray-700">
+                {perguntaAtual.content?.Data ? (
+                  <p>{perguntaAtual.content.Data}</p>
+                ) : (
+                  <p>Loading content...</p>
+                )}
+              </div>
+            </>
           ) : (
             <h1>Loading question...</h1>
           )}
