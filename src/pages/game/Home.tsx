@@ -17,7 +17,6 @@ const Home = ({ game, active }: HomeProps) => {
   function joinGame() {
     game.join(code, user!.name);
     active()
-    navigate("/play")
   }
 
   function hostGame() {

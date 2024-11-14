@@ -33,7 +33,7 @@ const Login: React.FC<LoginModalProps> = ({ onClose }) => {
     if (success) {
       // Close the modal and navigate to the home page
       onClose();
-      navigate('/home'); // Redirect to the desired page on successful login
+      navigate('/player'); // Redirect to the desired page on successful login
     } else {
       toast.error("Erro ao fazer login, verifique suas credenciais.");
     }

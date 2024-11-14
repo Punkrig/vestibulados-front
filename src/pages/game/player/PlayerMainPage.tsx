@@ -19,19 +19,19 @@ const PlayerMainPage: React.FC = () => {
 
       switch (currentState) {
         case GameState.Lobby:
-          navigate("/home/lobby");
+          navigate("/player/lobby");
           break;
         case GameState.Play:
-          navigate("/home/play");
+          navigate("/player/play");
           break;
         case GameState.Intermission:
-          navigate("/home/intermission");
+          navigate("/player/intermission");
           break;
         case GameState.End:
-          navigate("/home/end");
+          navigate("/player/end");
           break;
         default:
-          navigate("/home/lobby");
+          navigate("/player/lobby");
       }
     }, 100);
 

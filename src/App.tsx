@@ -34,7 +34,7 @@ function App() {
         />
 
         {/* Outras rotas */}
-        <Route path="/home/*" element={
+        <Route path="/player/*" element={
           <PrivateRoute>
             <PlayerMainPage />
           </PrivateRoute>
