@@ -8,6 +8,7 @@ const Menu = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false); // Adicionando estado para o menu de usuário
   const { isAuthenticated, signOut } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -41,14 +42,19 @@ const Menu = () => {
     setIsMobileMenuOpen(false);
   }
 
-  // Function to handle redirection to sections on the landing page
-  function handleSectionNavigation(sectionId: string) {
+  function handleSectionNavigation(sectionId) {
     if (location.pathname !== "/") {
       navigate(`/#${sectionId}`);
     } else {
       document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
     }
-  }  
+    closeMobileMenu();
+  }
+
+  // Função para alternar o menu do usuário
+  function toggleUserMenu() {
+    setIsUserMenuOpen(!isUserMenuOpen);
+  }
 
   return (
     <header className="bg-white">
@@ -74,7 +80,7 @@ const Menu = () => {
             </Link>
           </div>
 
-          <div className="hidden md:block">
+          {!isAuthenticated ?(<div className="hidden md:block">
             <nav aria-label="Global">
               <ul className="flex items-center gap-10 text-lg">
                 <li>
@@ -103,7 +109,9 @@ const Menu = () => {
                 </li>
               </ul>
             </nav>
-          </div>
+          </div>):(
+            <div> </div>
+          )}
 
           <div className="flex items-center gap-4">
             {!isAuthenticated ? (
@@ -124,12 +132,74 @@ const Menu = () => {
                 </div>
               </div>
             ) : (
-              <button
-                className="rounded-md bg-red-600 px-5 py-2.5 text-sm font-medium text-white shadow"
-                onClick={signOut}
-              >
-                Sign Out
-              </button>
+              <div className="hidden md:relative md:block">
+                <button
+                  type="button"
+                  className="overflow-hidden rounded-full border border-gray-300 shadow-inner"
+                  onClick={toggleUserMenu} // Alternar menu do usuário ao clicar
+                >
+                  <span className="sr-only">Toggle dashboard menu</span>
+
+                  <img
+                    src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt="User"
+                    className="size-10 object-cover"
+                  />
+                </button>
+
+                {isUserMenuOpen && ( // Verifica se o menu do usuário está aberto
+                  <div
+                    className="absolute end-0 z-10 mt-0.5 w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg"
+                    role="menu"
+                  >
+                    <div className="p-2">
+                      <a
+                        href="#"
+                        className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                        role="menuitem"
+                      >
+                        Meu Perfil
+                      </a>
+
+
+                      <a
+                        href="#"
+                        className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                        role="menuitem"
+                      >
+                        Estatísticas
+                      </a>
+                    </div>
+
+                    <div className="p-2">
+                      <form method="POST" action="#">
+                        <button
+                          type="submit"
+                          className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
+                          role="menuitem"
+                          onClick={signOut}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="size-4"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
+                            />
+                          </svg>
+                          Logout
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                )}
+              </div>
             )}
 
             <div className="block md:hidden">
@@ -152,7 +222,6 @@ const Menu = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <nav className="md:hidden mt-2">
             <ul className="flex flex-col gap-4 text-lg">
@@ -180,35 +249,15 @@ const Menu = () => {
                   Planos
                 </button>
               </li>
-              {!isAuthenticated ? (
-                <li>
-                  <button
-                    className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
-                    onClick={openRegisterModal}
-                  >
-                    Register
-                  </button>
-                </li>
-              ) : (
-                <li>
-                  <button
-                    className="rounded-md bg-red-600 px-5 py-2.5 text-sm font-medium text-white"
-                    onClick={signOut}
-                  >
-                    Sign Out
-                  </button>
-                </li>
-              )}
             </ul>
           </nav>
         )}
-
-        {/* Render Login Modal */}
-        {isLoginOpen && <Login onClose={closeLoginModal} />}
-
-        {/* Render Register Modal */}
-        {isRegisterOpen && <Register onClose={closeRegisterModal} />}
       </div>
+
+      {/* Modal de Login */}
+      {isLoginOpen && <Login onClose={closeLoginModal} />}
+      {/* Modal de Registro */}
+      {isRegisterOpen && <Register onClose={closeRegisterModal} />}
     </header>
   );
 };
