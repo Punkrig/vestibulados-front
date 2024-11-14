@@ -10,7 +10,8 @@ export enum PacketTypes {
   Tick,
   Answer,
   PlayerReveal,
-  Leaderboard
+  Leaderboard,
+  GameCreated
 }
 
 export enum GameState {
@@ -69,6 +70,10 @@ export interface LeaderboardEntry {
 
 export interface LeaderboardPacket extends Packet {
   entries: LeaderboardEntry[];
+}
+
+export interface GameCreatedPacket extends Packet {
+  code: string
 }
 
 export class NetService {

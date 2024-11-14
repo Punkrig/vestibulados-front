@@ -1,6 +1,11 @@
-import { GameViewProps } from "../../model/quiz"
+import { HostGame } from "../../services/host/host"
+import { PlayerGame } from "../../services/player/player"
 
-const HostEndView: React.FC<GameViewProps> = ({ game }) => {
+export interface GameViewProps {
+  game: HostGame | PlayerGame
+}
+
+const GameEndView: React.FC<GameViewProps> = ({ game }) => {
   return (
     <>
     HostEndView
@@ -9,4 +14,4 @@ const HostEndView: React.FC<GameViewProps> = ({ game }) => {
   )
 }
 
-export default HostEndView
+export default GameEndView

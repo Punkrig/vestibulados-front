@@ -1,16 +1,14 @@
 import { useContext, useState } from "react";
-import Menu from "../../../components/Menu";
-import { materias } from "../../../constants";
-import { QuizContext } from "../../../contexts/QuizContext";
-import type { HostGame } from "../../../services/host/host";
-import { Quiz } from "../../../model/quiz";
+import Menu from "../../components/Menu";
+import { materias } from "../../constants";
+import { QuizContext } from "../../contexts/QuizContext";
+import { Quiz } from "../../model/quiz";
 
 interface SettingsProps {
-  game: HostGame;
   onHost: (detail: Quiz) => void
 }
 
-const Settings: React.FC<SettingsProps> = ({ game, onHost }) => {
+const Settings: React.FC<SettingsProps> = ({ onHost }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [clickedIndices, setClickedIndices] = useState<number[]>([]);
   const { createQuiz } = useContext(QuizContext)

@@ -1,5 +1,5 @@
-import Menu from '../components/Menu';
-import { users } from '../constants'; // Certifique-se de que users está importado corretamente
+import Menu from '../../components/Menu';
+import { users } from '../../constants';
 
 const Roulette = () => {
   return (

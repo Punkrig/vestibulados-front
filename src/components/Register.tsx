@@ -1,7 +1,6 @@
 import { useState, FormEvent, useContext } from 'react';
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react';
 import { AuthContext } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
 
 interface RegisterModalProps {
   onClose: () => void;
@@ -14,7 +13,6 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ onClose }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const { signUp } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   async function handleRegister(event: FormEvent) {
     event.preventDefault();
@@ -34,7 +32,6 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ onClose }) => {
 
     if (success) {
       onClose(); // Close the modal after successful registration
-      navigate('/login'); // Redirect to login or another page after registration
     }
   }
 

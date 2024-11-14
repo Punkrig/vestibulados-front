@@ -1,9 +1,13 @@
-import { NetService, PacketTypes, type Packet, type ConnectPacket, type ChangeGameStatePacket, GameState, type QuestionAnswerPacket, type PlayerRevealPacket } from "../net";
+import { QuizQuestion } from "../../model/quiz";
+import { NetService, PacketTypes, type Packet, type ConnectPacket, type ChangeGameStatePacket, GameState, type QuestionAnswerPacket, type PlayerRevealPacket, TickPacket, LeaderboardEntry, QuestionShowPacket, LeaderboardPacket } from "../net";
 
 export class PlayerGame {
   private net: NetService;
-  private state: GameState = GameState.Lobby
-  private points: number = 0
+  private points: number = 0;
+  private state: GameState = GameState.Lobby;
+  private tick: number = 0;
+  private leaderboard: LeaderboardEntry[] = [];
+  private currentQuestion: QuizQuestion | null = null
 
   constructor() {
     this.net = new NetService();
@@ -42,6 +46,21 @@ export class PlayerGame {
         this.points = data.points
         break
       }
+      case PacketTypes.Tick:{
+        let data = packet as TickPacket
+        this.tick = data.tick
+        break
+      }
+      case PacketTypes.QuestionShow:{
+        const QuestionPacket = packet as QuestionShowPacket
+        this.currentQuestion = QuestionPacket.question
+        break
+      }
+      case PacketTypes.Leaderboard:{
+        const leaderboardPacket = packet as LeaderboardPacket;
+        this.leaderboard = leaderboardPacket.entries
+        break;
+      }
     }
   }
 
@@ -51,5 +70,17 @@ export class PlayerGame {
 
   getPoints() {
     return this.points
+  }
+
+  getTick() {
+    return this.tick
+  }
+
+  getCurrentQuestion() {
+    return this.currentQuestion
+  }
+
+  getLeaderboard() {
+    return this.leaderboard
   }
 }

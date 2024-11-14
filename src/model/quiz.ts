@@ -1,5 +1,3 @@
-import { HostGame } from "../services/host/host";
-
 export interface Quiz {
   id: string;
   name: string;
@@ -28,8 +26,4 @@ export interface QuizChoice {
   id: string;
   name: string;
   correct: boolean;
-}
-
-export interface GameViewProps {
-  game: HostGame
 }

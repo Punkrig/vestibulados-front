@@ -1,6 +1,6 @@
 // HostGame.js
 import { NetService, PacketTypes, GameState, LeaderboardEntry } from "../net";
-import type { HostGamePacket, Packet, PlayerJoinPacket, ChangeGameStatePacket, TickPacket, LeaderboardPacket } from "../net";
+import type { HostGamePacket, Packet, PlayerJoinPacket, ChangeGameStatePacket, TickPacket, LeaderboardPacket, QuestionShowPacket, GameCreatedPacket } from "../net";
 import type { Player, QuizQuestion } from "../../model/quiz";
 
 export class HostGame {
@@ -9,13 +9,18 @@ export class HostGame {
   private state: GameState = GameState.Lobby;
   private tick: number = 0;
   private leaderboard: LeaderboardEntry[] = [];
-  private currentQuestion: QuizQuestion | null = null
+  private currentQuestion: QuizQuestion | null = null;
+  private code: string = '';
+  public isInitialized: boolean = false; // New property to prevent re-initialization
 
   constructor() {
     this.net = new NetService();
   }
 
   initializeGame() {
+    if (this.isInitialized) return; // Prevent re-initialization
+    this.isInitialized = true; // Mark as initialized
+
     this.net.connect();
     this.net.onPacket(this.onPacket.bind(this));
   }
@@ -47,11 +52,21 @@ export class HostGame {
       case PacketTypes.Tick:
         const tickPacket = packet as TickPacket;
         this.tick = tickPacket.tick;
-        break
-      
+        break;
+
       case PacketTypes.Leaderboard:
         const leaderboardPacket = packet as LeaderboardPacket;
-        this.leaderboard = leaderboardPacket.entries
+        this.leaderboard = leaderboardPacket.entries;
+        break;
+
+      case PacketTypes.QuestionShow:
+        const questionPacket = packet as QuestionShowPacket;
+        this.currentQuestion = questionPacket.question;
+        break;
+
+      case PacketTypes.GameCreated:
+        const codePacket = packet as GameCreatedPacket;
+        this.code = codePacket.code;
         break;
 
       default:
@@ -77,5 +92,9 @@ export class HostGame {
 
   getCurrentQuestion() {
     return this.currentQuestion;
+  }
+
+  getGameCode() {
+    return this.code;
   }
 }

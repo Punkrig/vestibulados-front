@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import { AuthContext } from "../contexts/AuthContext";
@@ -8,13 +8,15 @@ const Menu = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const { isAuthenticated, signOut } = useContext(AuthContext);
 
-  const { isAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   function openLoginModal() {
     setIsLoginOpen(true);
     setIsRegisterOpen(false);
-    closeMobileMenu(); // Ensure only one modal opens at a time
+    closeMobileMenu();
   }
 
   function closeLoginModal() {
@@ -24,7 +26,7 @@ const Menu = () => {
   function openRegisterModal() {
     setIsRegisterOpen(true);
     setIsLoginOpen(false);
-    closeMobileMenu(); // Ensure only one modal opens at a time
+    closeMobileMenu();
   }
 
   function closeRegisterModal() {
@@ -39,12 +41,21 @@ const Menu = () => {
     setIsMobileMenuOpen(false);
   }
 
+  // Function to handle redirection to sections on the landing page
+  function handleSectionNavigation(sectionId: string) {
+    if (location.pathname !== "/") {
+      navigate(`/#${sectionId}`);
+    } else {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+    }
+  }  
+
   return (
     <header className="bg-white">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="md:flex md:items-center md:gap-12">
-            <Link className="block text-teal-600" to="/"> {/* Updated to use Link */}
+            <Link className="block text-teal-600" to="/">
               <span className="sr-only">Home</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -67,35 +78,35 @@ const Menu = () => {
             <nav aria-label="Global">
               <ul className="flex items-center gap-10 text-lg">
                 <li>
-                  <a
+                  <button
                     className="text-gray-500 transition hover:text-teal-600"
-                    href="#home"
+                    onClick={() => handleSectionNavigation("home")}
                   >
                     Home
-                  </a>
+                  </button>
                 </li>
                 <li>
-                  <a
+                  <button
                     className="text-gray-500 transition hover:text-teal-600"
-                    href="#about-us"
+                    onClick={() => handleSectionNavigation("about-us")}
                   >
                     Sobre Nós
-                  </a>
+                  </button>
                 </li>
                 <li>
-                  <a
+                  <button
                     className="text-gray-500 transition hover:text-teal-600"
-                    href="#pricing"
+                    onClick={() => handleSectionNavigation("pricing")}
                   >
                     Planos
-                  </a>
+                  </button>
                 </li>
               </ul>
             </nav>
           </div>
 
           <div className="flex items-center gap-4">
-            {!isAuthenticated && (
+            {!isAuthenticated ? (
               <div className="sm:flex sm:gap-4">
                 <button
                   className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
@@ -103,7 +114,6 @@ const Menu = () => {
                 >
                   Login
                 </button>
-
                 <div className="hidden sm:flex">
                   <button
                     className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
@@ -113,6 +123,13 @@ const Menu = () => {
                   </button>
                 </div>
               </div>
+            ) : (
+              <button
+                className="rounded-md bg-red-600 px-5 py-2.5 text-sm font-medium text-white shadow"
+                onClick={signOut}
+              >
+                Sign Out
+              </button>
             )}
 
             <div className="block md:hidden">
@@ -128,11 +145,7 @@ const Menu = () => {
                   stroke="currentColor"
                   strokeWidth={2}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
             </div>
@@ -144,37 +157,45 @@ const Menu = () => {
           <nav className="md:hidden mt-2">
             <ul className="flex flex-col gap-4 text-lg">
               <li>
-                <a
+                <button
                   className="text-gray-500 transition hover:text-teal-600"
-                  href="#"
+                  onClick={() => handleSectionNavigation("home")}
                 >
                   Home
-                </a>
+                </button>
               </li>
               <li>
-                <a
+                <button
                   className="text-gray-500 transition hover:text-teal-600"
-                  href="#"
+                  onClick={() => handleSectionNavigation("about-us")}
                 >
                   Sobre Nós
-                </a>
+                </button>
               </li>
               <li>
-                <a
+                <button
                   className="text-gray-500 transition hover:text-teal-600"
-                  href="#"
+                  onClick={() => handleSectionNavigation("pricing")}
                 >
                   Planos
-                </a>
+                </button>
               </li>
-              {/* Register button in mobile menu */}
-              {!isAuthenticated && (
+              {!isAuthenticated ? (
                 <li>
                   <button
                     className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
                     onClick={openRegisterModal}
                   >
                     Register
+                  </button>
+                </li>
+              ) : (
+                <li>
+                  <button
+                    className="rounded-md bg-red-600 px-5 py-2.5 text-sm font-medium text-white"
+                    onClick={signOut}
+                  >
+                    Sign Out
                   </button>
                 </li>
               )}

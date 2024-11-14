@@ -3,51 +3,46 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { HostGame } from "../../../services/host/host";
 import { GameState } from "../../../services/net";
 import HostLobbyView from "./HostLobbyView";
-import HostPlayView from "../GamePlayView";
-import HostEndView from "../GameEndView";
-import HostIntermissionView from "../GameIntermissionView";
 import { Quiz } from "../../../model/quiz";
-import Settings from "./Settings";
+import Settings from "../Settings";
+import Gameplay from "../Gameplay";
+import GameIntermissionView from "../GameIntermissionView";
+import GameEndView from "../GameEndView";
 
 const HostMainPage: React.FC = () => {
-  const [game] = useState(() => new HostGame());
+  const [game] = useState(() => new HostGame()); // Stable instance of HostGame
   const [active, setActive] = useState(false);
-  const [state, setState] = useState(GameState.Lobby);
   const navigate = useNavigate();
 
   useEffect(() => {
-    game.initializeGame();
+    if (!game.isInitialized) { // Add a flag in `HostGame` to prevent re-initialization
+      game.initializeGame();
+      game.isInitialized = true;
+    }
 
     const interval = setInterval(() => {
-      setState((prevState) => {
-        const newState = (prevState + 1) % 4;
-        console.log("Updated state:", newState);
+      const currentState = game.getState(); // Get the current state from HostGame
 
-        switch (newState) {
-          case GameState.Lobby:
-            navigate("/host/lobby");
-            break;
-          case GameState.Play:
-            navigate("/host/play");
-            break;
-          case GameState.Intermission:
-            navigate("/host/intermission");
-            break;
-          case GameState.End:
-            navigate("/host/end");
-            break;
-          default:
-            navigate("/host/lobby");
-        }
+      switch (currentState) {
+        case GameState.Lobby:
+          navigate("/host/lobby");
+          break;
+        case GameState.Play:
+          navigate("/host/play");
+          break;
+        case GameState.Intermission:
+          navigate("/host/intermission");
+          break;
+        case GameState.End:
+          navigate("/host/end");
+          break;
+        default:
+          navigate("/host/lobby");
+      }
+    }, 100);
 
-        return newState;
-      });
-    }, 5000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [game, navigate]);
+    return () => clearInterval(interval); // Clean up interval on component unmount
+  }, [navigate]); // Removed `game` from dependencies
 
   function onHost(detail: Quiz) {
     game.hostQuiz(detail.id);
@@ -59,13 +54,13 @@ const HostMainPage: React.FC = () => {
     <div>
       {active ? (
         <Routes>
-          <Route path="lobby" element={<Settings game={game} onHost={onHost} />} />
-          <Route path="play" element={<HostPlayView game={game} />} />
-          <Route path="intermission" element={<HostIntermissionView game={game} />} />
-          <Route path="end" element={<HostEndView game={game} />} />
+          <Route path="lobby" element={<HostLobbyView game={game} />} />
+          <Route path="play" element={<Gameplay game={game} />} />
+          <Route path="intermission" element={<GameIntermissionView game={game} />} />
+          <Route path="end" element={<GameEndView game={game} />} />
         </Routes>
       ) : (
-        <HostLobbyView game={game} />
+        <Settings onHost={onHost}/>
       )}
     </div>
   );

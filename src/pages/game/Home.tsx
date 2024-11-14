@@ -1,6 +1,29 @@
-import Menu from "../components/Menu"
+import Menu from "../../components/Menu";
+import { useAuth } from "../../contexts/AuthContext";
+import { PlayerGame } from "../../services/player/player";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Home = () => {
+interface HomeProps {
+  game: PlayerGame
+  active: () => void
+}
+
+const Home = ({ game, active }: HomeProps) => {
+  const { user } = useAuth();
+  const [code, setCode] = useState('');
+  const navigate = useNavigate();
+
+  function joinGame() {
+    game.join(code, user!.name);
+    active()
+    navigate("/play")
+  }
+
+  function hostGame() {
+    navigate("/host"); // Redirect to the /host route
+  }
+
   return (
     <>
       <header>
@@ -15,11 +38,8 @@ const Home = () => {
                 <strong className="text-[150px]">0</strong>
               </p>
             </div>
-            <div className="bg-[#E5E5E5] h-[97px] text-center flex items-center justify-center  ">
-              <p >
-                jogue uma partida para completar
-                a sua streak de hoje
-              </p>
+            <div className="bg-[#E5E5E5] h-[97px] text-center flex items-center justify-center">
+              <p>jogue uma partida para completar a sua streak de hoje</p>
             </div>
           </div>
           <div className="w-[300px] h-[100px] border border-black mt-4 rounded-2xl">
@@ -28,20 +48,34 @@ const Home = () => {
                 <img src="src/assets/Trophy.png" alt="Troféu preto" />
               </div>
               <div className="flex flex-col ml-10">
-                <div >
+                <div>
                   <p className="text-[25px]">
-                    <strong>
-                      Conquistas
-                    </strong>
+                    <strong>Conquistas</strong>
                   </p>
                 </div>
                 <div>
-                  <p>
-                    02/100
-                  </p>
+                  <p>00/100</p>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col items-center">
+          <div className="w-[12vw] h-[300px] border border-black flex flex-col items-center justify-center rounded-lg">
+            <h3 className="font-bold text-lg mb-4">Entrar em jogo</h3>
+            <input 
+              className="border-2 border-black rounded-md pl-2 m-2" 
+              placeholder="Código do jogo"
+              value={code}
+              onChange={(e) => setCode(e.target.value)} 
+            />
+            <button 
+              className="w-[200px] h-[40px] border rounded-2xl bottom-0 border-gray-600 bg-gray-600 mt-5 text-white font-bold"
+              onClick={joinGame}  
+            >
+              Entrar
+            </button>
           </div>
         </div>
 
@@ -56,13 +90,18 @@ const Home = () => {
           </div>
           <div className="flex flex-col items-center mt-5">
             <h2 className="font-bold text-[20px]">Treinar questões com os amigos</h2>
-            <button className="w-[200px] h-[40px] border rounded-2xl bottom-0 border-gray-600 bg-gray-600 mt-5 text-white font-bold">Jogar</button>
+            <button 
+              className="w-[200px] h-[40px] border rounded-2xl bottom-0 border-gray-600 bg-gray-600 mt-5 text-white font-bold"
+              onClick={hostGame}  
+            >
+              Hostear
+            </button>
           </div>
         </div>
 
       </section>
     </>
-  )
+  );
 }
 
-export default Home
+export default Home;

@@ -46,7 +46,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     const cookies = parseCookies();
     const token = cookies['@auth.token'];
-    console.log("Token from cookies on initial load:", token);
 
     if (token) {
       api.defaults.headers['Authorization'] = `Bearer ${token}`;
@@ -55,8 +54,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           const { id, name, email, plan, points } = response.data;
           setUser({ id, name, email, plan, points });
         })
-        .catch(error => {
-          console.error("Error fetching user data:", error);
+        .catch(() => {
           signOut(); // Automatically sign out on error
         });
     }
@@ -65,25 +63,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
   // Sign out function with window.location.href for full reload
   function signOut(): boolean {
     try {
-      console.log("Signing out...");
       destroyCookie(undefined, '@auth.token');
       setUser(null);
       window.location.href = '/'; // Full reload to clear session
-      console.log("User signed out and redirected to /");
       return true;
-    } catch (error) {
-      console.error("Error logging out", error);
+    } catch {
       return false;
     }
   }
 
   // Sign in function with status return
   async function signIn({ email, password }: SignInProps): Promise<boolean> {
-    console.log("Attempting to sign in with:", { email, password });
     try {
       const response = await api.post('/api/login', { email, password });
       const { id, name, plan, points, token } = response.data;
-      console.log("Sign-in successful. User data:", response.data);
 
       // Set token in cookies
       setCookie(undefined, '@auth.token', token, {
@@ -96,8 +89,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       api.defaults.headers['Authorization'] = `Bearer ${token}`;
       toast.success("Successfully logged in!");
       return true; // Sign in success
-    } catch (err) {
-      console.error("Error during sign-in:", err);
+    } catch {
       toast.error("Error logging in!");
       return false; // Sign in failure
     }
@@ -105,14 +97,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   // Sign up function with status return
   async function signUp({ name, email, password }: SignUpProps): Promise<boolean> {
-    console.log("Attempting to sign up with:", { name, email });
     try {
       await api.post('/api/register', { name, email, password });
       toast.success("Account created successfully!");
-      console.log("Sign-up successful.");
       return true; // Sign up success
-    } catch (err) {
-      console.error("Error during sign-up:", err);
+    } catch {
       toast.error("Error signing up!");
       return false; // Sign up failure
     }

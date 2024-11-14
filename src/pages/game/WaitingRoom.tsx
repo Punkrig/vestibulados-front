@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import Menu from "../components/Menu";
-import { users } from "../constants";
+import { useState } from "react";
+import Menu from "../../components/Menu";
+import { users } from "../../constants";
 
 const WaitingRoom = () => {
   const [text, setText] = useState("Você está na sala de espera");
