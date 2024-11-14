@@ -10,7 +10,7 @@ export const materias =[
 ];
 export const users =[
     {name:"Jaozinho"},
-    {name:"Gaybrielzinho"},
+    {name:"Gabrielzinho"},
     {name:"Antônio"},
     {name:"Samuel"},
 ]

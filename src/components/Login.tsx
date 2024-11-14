@@ -1,39 +1,46 @@
-import { useState, useContext, FormEvent } from 'react'
-import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
-import { AuthContext } from '../contexts/AuthContext'
-import { toast } from 'react-toastify'
+import { useState, useContext, FormEvent } from 'react';
+import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react';
+import { AuthContext } from '../contexts/AuthContext';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginModalProps {
-  onClose: () => void
+  onClose: () => void;
 }
 
 const Login: React.FC<LoginModalProps> = ({ onClose }) => {
-  const { signIn } = useContext(AuthContext)
+  const { signIn } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   async function handleLogin(event: FormEvent) {
     event.preventDefault();
 
     if (email === '' || password === '') {
-      toast.error("Preencha todos os campos!")
-      return
+      toast.error("Preencha todos os campos!");
+      return;
     }
 
     const data = {
       email,
-      password
+      password,
+    };
+
+    const success = await signIn(data);
+
+    if (success) {
+      // Close the modal and navigate to the home page
+      onClose();
+      navigate('/home'); // Redirect to the desired page on successful login
+    } else {
+      toast.error("Erro ao fazer login, verifique suas credenciais.");
     }
-
-    await signIn(data)
-
-    onClose()
   }
 
   return (
     <>
-
       <Dialog open={true} onClose={onClose} className="relative z-10">
         <DialogBackdrop
           transition
@@ -50,7 +57,6 @@ const Login: React.FC<LoginModalProps> = ({ onClose }) => {
               <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 flex flex-col items-center">
                 <h1 className="font-bold text-center text-2xl mb-10">Vestibulados</h1>
                 <div className="sm:flex sm:items-start">
-
                   <div className="mt-3 text-center sm:mt-0">
                     <DialogTitle as="h3" className="text-base font-semibold text-gray-900">
                       Login
@@ -98,22 +104,21 @@ const Login: React.FC<LoginModalProps> = ({ onClose }) => {
                           </button>
                         </div>
                         <div>
-                            <p className="text-sm text-gray-600">
-                              Não tem uma conta? <strong>Cadastre-se</strong>
-                            </p>
+                          <p className="text-sm text-gray-600">
+                            Não tem uma conta? <strong>Cadastre-se</strong>
+                          </p>
                         </div>
                       </form>
                     </div>
                   </div>
                 </div>
               </div>
-
             </DialogPanel>
           </div>
         </div>
       </Dialog>
     </>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

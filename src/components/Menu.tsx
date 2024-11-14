@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { Link } from "react-router-dom"; // Import Link for navigation
 import Login from "./Login";
 import Register from "./Register";
 import { AuthContext } from "../contexts/AuthContext";
@@ -38,13 +39,12 @@ const Menu = () => {
     setIsMobileMenuOpen(false);
   }
 
-
   return (
     <header className="bg-white">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="md:flex md:items-center md:gap-12">
-            <a className="block text-teal-600" href="#">
+            <Link className="block text-teal-600" to="/"> {/* Updated to use Link */}
               <span className="sr-only">Home</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +60,7 @@ const Menu = () => {
                   d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
                 />
               </svg>
-            </a>
+            </Link>
           </div>
 
           <div className="hidden md:block">

@@ -9,6 +9,7 @@ import Roulette from "./pages/Roulette";
 import HostMainPage from "./pages/game/host/HostMainPage";
 import Gameplay from "./pages/game/Gameplay";
 import Result from "./pages/game/Result";
+import PrivateRoute from "./components/isAuthenticated";
 
 function App() {
   return (
@@ -34,7 +35,11 @@ function App() {
         />
 
         {/* Outras rotas */}
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={
+          <PrivateRoute>
+            <Home />
+          </PrivateRoute>
+          } />
         <Route path="/waiting-room" element={<WaitingRoom />}/>
         <Route path="/roulette" element={<Roulette/>} />
         <Route path="/host/*" element={<HostMainPage/>} />

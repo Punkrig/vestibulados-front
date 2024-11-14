@@ -1,4 +1,5 @@
 import Menu from '../components/Menu' // Importando o novo componente Menu
+import { Link } from 'react-router-dom' // Importando Link do react-router-dom
 
 const Hero = () => {
   return (
@@ -23,15 +24,15 @@ const Hero = () => {
               mais importantes da sua carreira.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a
-                href="#"
+              <Link
+                to="/home" // Usando Link para navegação interna
                 className="rounded-md bg-teal-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Comece Agora!
-              </a>
-              <a href="#" className="text-sm/6 font-semibold text-gray-900">
+              </Link>
+              <Link to="#" className="text-sm/6 font-semibold text-gray-900">
                 Leia Mais <span aria-hidden="true">→</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
