@@ -1,28 +1,35 @@
-// setupAPIClient.ts
 import axios, { AxiosError } from "axios";
-import { parseCookies } from "nookies";
+import { parseCookies, destroyCookie } from "nookies";
 import { AuthTokenError } from "./errors/AuthTokenError";
 
 export function setupAPIClient(ctx = undefined, signOut?: () => void) {
-  let cookies = parseCookies(ctx);
+  // Parse cookies to retrieve the token
+  const cookies = parseCookies(ctx);
 
   const api = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: "https://kahoot-clone-rouge.vercel.app",
     headers: {
-      Authorization: `Bearer ${cookies['@auth.token']}`
-    }
+      Authorization: cookies['@auth.token'] ? `Bearer ${cookies['@auth.token']}` : ""
+    },
+    withCredentials: true, // Include credentials for cross-origin requests
   });
 
+  // Add an interceptor to handle responses
   api.interceptors.response.use(
-    response => {
-      return response;
+    (response) => {
+      return response; // Return the response if successful
     },
     (error: AxiosError) => {
       if (error.response?.status === 401) {
-        // Only sign out if this code is running on the client side
-        if (typeof window !== "undefined" && signOut) {
-          signOut();
+        // Handle 401 Unauthorized errors
+        if (typeof window !== "undefined") {
+          // Client-side logic
+          if (signOut) {
+            signOut();
+          }
         } else {
+          // Server-side logic
+          destroyCookie(ctx, "@auth.token"); // Destroy the token cookie
           return Promise.reject(new AuthTokenError());
         }
       }
