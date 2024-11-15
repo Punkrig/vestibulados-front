@@ -2,7 +2,7 @@ import { LeaderboardEntry } from "../services/net";
 import Menu from "./Menu";
 
 export interface LeaderboardProps {
-  leaderboard?: LeaderboardEntry[]; // Accepting an array of LeaderboardEntry
+  leaderboard: LeaderboardEntry[]; // Accepting an array of LeaderboardEntry
 }
 
 const Leaderboard: React.FC<LeaderboardProps> = ({ leaderboard }) => {
