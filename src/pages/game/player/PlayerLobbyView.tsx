@@ -14,7 +14,7 @@ const PlayerLobbyView = () => {
               </svg>
 
           
-          <div>Esperando o Host começar o jogo ...</div>
+          <div className="text-xl">Esperando o Host começar o jogo ...</div>
         </div>
       </div>
     </>
