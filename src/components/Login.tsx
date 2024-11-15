@@ -6,9 +6,10 @@ import { useNavigate } from 'react-router-dom';
 
 interface LoginModalProps {
   onClose: () => void;
+  onSwitchToRegister: () => void;
 }
 
-const Login: React.FC<LoginModalProps> = ({ onClose }) => {
+const Login: React.FC<LoginModalProps> = ({ onClose, onSwitchToRegister }) => {
   const { signIn } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -105,7 +106,11 @@ const Login: React.FC<LoginModalProps> = ({ onClose }) => {
                         </div>
                         <div>
                           <p className="text-sm text-gray-600">
-                            Não tem uma conta? <strong>Cadastre-se</strong>
+                            Não tem uma conta? <strong><button
+                            onClick={onSwitchToRegister}
+                            ></button>
+                              Cadastre-se
+                            </strong>
                           </p>
                         </div>
                       </form>

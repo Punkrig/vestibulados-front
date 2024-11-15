@@ -255,9 +255,9 @@ const Menu = () => {
       </div>
 
       {/* Modal de Login */}
-      {isLoginOpen && <Login onClose={closeLoginModal} />}
+      {isLoginOpen && <Login onClose={closeLoginModal} onSwitchToRegister={openRegisterModal} />}
       {/* Modal de Registro */}
-      {isRegisterOpen && <Register onClose={closeRegisterModal} />}
+      {isRegisterOpen && <Register onClose={closeRegisterModal} onSwitchToLogin={openLoginModal}/>}
     </header>
   );
 };

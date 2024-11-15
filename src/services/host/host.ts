@@ -94,6 +94,10 @@ export class HostGame {
     }
   }
 
+  setState(state: number) {
+    this.state = state
+  }
+
   getPlayers() {
     return this.players;
   }

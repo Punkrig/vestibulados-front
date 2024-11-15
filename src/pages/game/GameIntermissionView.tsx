@@ -9,7 +9,6 @@ interface GameplayProps {
 
 const GameIntermissionView: React.FC<GameplayProps> = ({ game }) => {
   const leaderboard = game.getLeaderboard()
-  console.log(leaderboard)
   return (
     <>
       <Leaderboard leaderboard={leaderboard} />

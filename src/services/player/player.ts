@@ -82,4 +82,8 @@ export class PlayerGame {
   getLeaderboard() {
     return this.leaderboard
   }
+
+  setState(state: number) {
+    this.state = state
+  }
 }

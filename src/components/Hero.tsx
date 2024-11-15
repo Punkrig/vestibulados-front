@@ -13,7 +13,7 @@ const Hero: React.FC = () => {
       event.preventDefault(); // Prevent navigation
       toast.info("Por favor, faça login para continuar.");
     } else {
-      navigate("/home");
+      navigate("/player/lobby");
     }
   }
 
@@ -36,7 +36,7 @@ const Hero: React.FC = () => {
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <Link
-                to="/home"
+                to="/player"
                 onClick={handleStartClick} // Call handleStartClick on click
                 className="rounded-md bg-teal-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >

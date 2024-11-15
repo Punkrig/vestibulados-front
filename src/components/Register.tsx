@@ -4,9 +4,10 @@ import { AuthContext } from '../contexts/AuthContext';
 
 interface RegisterModalProps {
   onClose: () => void;
+  onSwitchToLogin: () => void;
 }
 
-const RegisterModal: React.FC<RegisterModalProps> = ({ onClose }) => {
+const RegisterModal: React.FC<RegisterModalProps> = ({ onClose, onSwitchToLogin }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -131,7 +132,12 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ onClose }) => {
                       </div>
                       <div>
                         <a href="#" onClick={onClose} className="text-sm text-gray-600">
-                          Tem uma conta? <strong>Faça login</strong>
+                          Tem uma conta? <strong><button
+                            onClick={onSwitchToLogin}
+                          >
+                            </button>
+                              Faça login
+                            </strong>
                         </a>
                       </div>
                     </form>

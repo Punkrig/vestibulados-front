@@ -99,9 +99,6 @@ export class NetService {
 
       packet.id = packetId
 
-      console.log(packetId)
-      console.log(packet)
-
       if (this.onPacketCallBack)
         this.onPacketCallBack(packet)
     }
