@@ -11,12 +11,10 @@ const Gameplay = ({ game }: GameplayProps) => {
   const [selecionada, setSelecionada] = useState<number | null>(null); // Estado para armazenar a alternativa selecionada
   const perguntaAtual = game.getCurrentQuestion(); // Call as a function to access the current question
   const tick = game.getTick(); // Call as a function to get the current tick
-  let answered = false
 
   function handleAnswer() {
     if (selecionada !== null){
       game.answer(selecionada)
-      answered = true
     }
   }
 
