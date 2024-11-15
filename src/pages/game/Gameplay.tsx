@@ -27,13 +27,13 @@ const Gameplay = ({ game }: GameplayProps) => {
         <div className="w-[500px] flex-wrap">
           {perguntaAtual ? ( // Check if perguntaAtual is not null
             <>
-              <h1>{perguntaAtual.name}</h1>
               <div className="mt-4 text-gray-700">
                 {perguntaAtual.content.data ? (
                   <p>{perguntaAtual.content.data}</p>
                 ) : (
                   <p>Loading content...</p>
                 )}
+              <h1 className="font-bold">{perguntaAtual.name}</h1>
               </div>
             </>
           ) : (
