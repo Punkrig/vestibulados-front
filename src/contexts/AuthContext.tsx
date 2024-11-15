@@ -90,7 +90,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       toast.success("Successfully logged in!");
       return true; // Sign in success
     } catch {
-      toast.error("Error logging in!");
       return false; // Sign in failure
     }
   }

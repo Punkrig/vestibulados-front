@@ -1,14 +1,14 @@
-import { PlayerGame } from "../../../services/player/player"
+import Menu from "../../../components/Menu"
 
-interface LobbyViewProps {
-  game: PlayerGame
-}
-
-const PlayerLobbyView = ({ game }: LobbyViewProps) => {
-  const state = game.getState()
+const PlayerLobbyView = () => {
   return(
     <>
-      <p>{state}</p>
+      <Menu />
+      <div className="w-screen h-screen flex justify-center items-center bg-white">
+        <h1 className="text-black font-bold text-9xl">
+          Esperando o Host começar o jogo!
+        </h1>
+      </div>
     </>
   )
 }

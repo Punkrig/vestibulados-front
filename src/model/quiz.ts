@@ -18,8 +18,8 @@ export interface QuizQuestion {
 }
 
 export interface Content {
-  Type: string,
-  Data: string,
+  type: string,
+  data: string,
 }
 
 export interface QuizChoice {

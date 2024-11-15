@@ -7,6 +7,7 @@ import PlayerLobbyView from "./PlayerLobbyView";
 import Gameplay from "../Gameplay";
 import GameIntermissionView from "../GameIntermissionView";
 import GameEndView from "../GameEndView";
+import RevealView from "../RevealView";
 
 const PlayerMainPage: React.FC = () => {
   const [game] = useState(() => new PlayerGame());
@@ -27,6 +28,9 @@ const PlayerMainPage: React.FC = () => {
         case GameState.Intermission:
           navigate("/player/intermission");
           break;
+        case GameState.Reveal:
+          navigate("/player/reveal")
+          break
         case GameState.End:
           navigate("/player/end");
           break;
@@ -48,10 +52,11 @@ const PlayerMainPage: React.FC = () => {
     <div>
       {active ? (
         <Routes>
-          <Route path="lobby" element={<PlayerLobbyView game={game} />} />
+          <Route path="lobby" element={<PlayerLobbyView />} />
           <Route path="play" element={<Gameplay game={game} />} />
           <Route path="intermission" element={<GameIntermissionView game={game} />} />
           <Route path="end" element={<GameEndView game={game} />} />
+          <Route path="reveal" element={<RevealView game={game} />} />
         </Routes>
       ) : (
         <Home game={game} active={updateActive}/>

@@ -1,6 +1,6 @@
 // HostGame.js
 import { NetService, PacketTypes, GameState, LeaderboardEntry } from "../net";
-import type { HostGamePacket, Packet, PlayerJoinPacket, ChangeGameStatePacket, TickPacket, LeaderboardPacket, QuestionShowPacket, GameCreatedPacket } from "../net";
+import type { HostGamePacket, Packet, PlayerJoinPacket, ChangeGameStatePacket, TickPacket, LeaderboardPacket, QuestionShowPacket, GameCreatedPacket, QuestionAnswerPacket, PlayerRevealPacket } from "../net";
 import type { Player, QuizQuestion } from "../../model/quiz";
 
 export class HostGame {
@@ -11,24 +11,39 @@ export class HostGame {
   private leaderboard: LeaderboardEntry[] = [];
   private currentQuestion: QuizQuestion | null = null;
   private code: string = '';
-  public isInitialized: boolean = false; // New property to prevent re-initialization
+  public isInitialized: boolean = false;
+  private hostPlayer: Player; // New property to represent the host as a player
+  private points: number = 0;
 
-  constructor() {
+  constructor(id: string, hostPlayerName: string) {
     this.net = new NetService();
+    this.hostPlayer = { id: id , name: hostPlayerName }; // Initialize host player
+
+    this.players.push(this.hostPlayer)
   }
 
   initializeGame() {
-    if (this.isInitialized) return; // Prevent re-initialization
-    this.isInitialized = true; // Mark as initialized
+    if (this.isInitialized) return;
+    this.isInitialized = true;
 
     this.net.connect();
     this.net.onPacket(this.onPacket.bind(this));
+  }
+
+  answer(question: number) {
+    let packet: QuestionAnswerPacket = {
+      id: PacketTypes.Answer,
+      question: question
+    }
+
+    this.net.sendPacket(packet)
   }
 
   hostQuiz(quizId: string) {
     const packet: HostGamePacket = {
       id: PacketTypes.HostGame,
       quizId: quizId,
+      hostPlayer: this.hostPlayer
     };
     this.net.sendPacket(packet);
   }
@@ -43,6 +58,11 @@ export class HostGame {
         const changeStatePacket = packet as ChangeGameStatePacket;
         this.state = changeStatePacket.state;
         break;
+      
+      case PacketTypes.PlayerReveal:
+        let data = packet as PlayerRevealPacket;
+        this.points = data.points
+        break
 
       case PacketTypes.PlayerJoin:
         const playerJoinPacket = packet as PlayerJoinPacket;
@@ -56,7 +76,7 @@ export class HostGame {
 
       case PacketTypes.Leaderboard:
         const leaderboardPacket = packet as LeaderboardPacket;
-        this.leaderboard = leaderboardPacket.entries;
+        this.leaderboard = leaderboardPacket.points
         break;
 
       case PacketTypes.QuestionShow:
@@ -96,5 +116,9 @@ export class HostGame {
 
   getGameCode() {
     return this.code;
+  }
+
+  getPoints() {
+    return this.points
   }
 }

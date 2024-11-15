@@ -56,11 +56,10 @@ export class PlayerGame {
         this.currentQuestion = QuestionPacket.question
         break
       }
-      case PacketTypes.Leaderboard:{
+      case PacketTypes.Leaderboard:
         const leaderboardPacket = packet as LeaderboardPacket;
-        this.leaderboard = leaderboardPacket.entries
+        this.leaderboard = leaderboardPacket.points
         break;
-      }
     }
   }
 

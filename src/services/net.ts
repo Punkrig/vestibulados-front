@@ -28,6 +28,7 @@ export interface Packet {
 
 export interface HostGamePacket extends Packet {
   quizId: string
+  hostPlayer: Player
 }
 
 export interface ChangeGameStatePacket extends Packet{
@@ -69,7 +70,7 @@ export interface LeaderboardEntry {
 }
 
 export interface LeaderboardPacket extends Packet {
-  entries: LeaderboardEntry[];
+  points: LeaderboardEntry[];
 }
 
 export interface GameCreatedPacket extends Packet {

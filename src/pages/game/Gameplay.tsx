@@ -11,6 +11,14 @@ const Gameplay = ({ game }: GameplayProps) => {
   const [selecionada, setSelecionada] = useState<number | null>(null); // Estado para armazenar a alternativa selecionada
   const perguntaAtual = game.getCurrentQuestion(); // Call as a function to access the current question
   const tick = game.getTick(); // Call as a function to get the current tick
+  let answered = false
+
+  function handleAnswer() {
+    if (selecionada !== null){
+      game.answer(selecionada)
+      answered = true
+    }
+  }
 
   return (
     <>
@@ -21,8 +29,8 @@ const Gameplay = ({ game }: GameplayProps) => {
             <>
               <h1>{perguntaAtual.name}</h1>
               <div className="mt-4 text-gray-700">
-                {perguntaAtual.content?.Data ? (
-                  <p>{perguntaAtual.content.Data}</p>
+                {perguntaAtual.content.data ? (
+                  <p>{perguntaAtual.content.data}</p>
                 ) : (
                   <p>Loading content...</p>
                 )}
@@ -50,7 +58,7 @@ const Gameplay = ({ game }: GameplayProps) => {
           ))}
         </div>
         <div>
-          <button className="m-10 p-2 w-[200px] rounded-2xl border border-black">
+          <button className="m-10 p-2 w-[200px] rounded-2xl border border-black" onClick={handleAnswer}>
             Responder
           </button>
         </div>

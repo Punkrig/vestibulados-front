@@ -8,9 +8,12 @@ import Settings from "../Settings";
 import Gameplay from "../Gameplay";
 import GameIntermissionView from "../GameIntermissionView";
 import GameEndView from "../GameEndView";
+import { useAuth } from "../../../contexts/AuthContext";
+import RevealView from "../RevealView";
 
 const HostMainPage: React.FC = () => {
-  const [game] = useState(() => new HostGame()); // Stable instance of HostGame
+  const { user } = useAuth()
+  const [game] = useState(() => new HostGame(user!.id, user!.name)); // Stable instance of HostGame
   const [active, setActive] = useState(false);
   const navigate = useNavigate();
 
@@ -33,6 +36,9 @@ const HostMainPage: React.FC = () => {
         case GameState.Intermission:
           navigate("/host/intermission");
           break;
+        case GameState.Reveal:
+          navigate("/host/reveal")
+          break
         case GameState.End:
           navigate("/host/end");
           break;
@@ -58,6 +64,7 @@ const HostMainPage: React.FC = () => {
           <Route path="play" element={<Gameplay game={game} />} />
           <Route path="intermission" element={<GameIntermissionView game={game} />} />
           <Route path="end" element={<GameEndView game={game} />} />
+          <Route path="reveal" element={<RevealView game={game} />} />
         </Routes>
       ) : (
         <Settings onHost={onHost}/>

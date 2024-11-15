@@ -42,7 +42,7 @@ const Menu = () => {
     setIsMobileMenuOpen(false);
   }
 
-  function handleSectionNavigation(sectionId) {
+  function handleSectionNavigation(sectionId: string) {
     if (location.pathname !== "/") {
       navigate(`/#${sectionId}`);
     } else {
