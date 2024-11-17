@@ -7,7 +7,7 @@ export function setupAPIClient(ctx = undefined, signOut?: () => void) {
   const cookies = parseCookies(ctx);
 
   const api = axios.create({
-    baseURL: "https://kahoot-clone-rouge.vercel.app",
+    baseURL: "https://vestibulados-server.onrender.com",
     headers: {
       Authorization: cookies['@auth.token'] ? `Bearer ${cookies['@auth.token']}` : ""
     },
